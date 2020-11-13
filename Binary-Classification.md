@@ -82,10 +82,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_
 ```python
 y_train_3 = (y_train == 3)
 y_test_3 = (y_test == 3)
-print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
+print(X_train.shape, X_test.shape, y_train.shape, y_test.shape,y_test_3.shape,type(y_test_3))
 ```
 
-    (37800, 784) (4200, 784) (37800,) (4200,)
+    (37800, 784) (4200, 784) (37800,) (4200,) (4200,) <class 'pandas.core.series.Series'>
     
 
 
@@ -132,25 +132,6 @@ sgd_clf.predict([array[4]])
 
 
 ```python
-cv_score_sgd = cross_val_score(sgd_clf, X_train, y_train_3, cv = 3, scoring = "accuracy")
-
-```
-
-
-```python
-cv_score_sgd = np.mean(cv_score_sgd)
-cv_score_sgd
-```
-
-
-
-
-    0.9500527440352871
-
-
-
-
-```python
 y_pred=sgd_clf.predict(X_test)
 y_pred
 ```
@@ -164,38 +145,14 @@ y_pred
 
 
 ```python
-y_train_pred = cross_val_predict(sgd_clf, X_train, y_train_3, cv= 3)
-print(type(y_train_pred),(y_train_pred.shape))
-print(type(y_pred),y_pred.shape)
-print(type(y_test),y_test.shape)
-print(type(y_train_3),y_train_3.shape)
-print(type(y_train_3.values))
-Y_3=[]
-for i in range(len(y_pred)):
-    Y_3.append(y_train_3.values[i])
-Y_3=np.array(Y_3)
-print(Y_3.shape)
-
-```
-
-    <class 'numpy.ndarray'> (37800,)
-    <class 'numpy.ndarray'> (4200,)
-    <class 'pandas.core.series.Series'> (4200,)
-    <class 'pandas.core.series.Series'> (37800,)
-    <class 'numpy.ndarray'>
-    (4200,)
-    
-
-
-```python
-confusion_matrix(Y_3,y_pred)
+confusion_matrix(y_test_3.values,y_pred)
 ```
 
 
 
 
-    array([[3418,  351],
-           [ 393,   38]], dtype=int64)
+    array([[3666,   28],
+           [ 145,  361]], dtype=int64)
 
 
 
@@ -203,19 +160,17 @@ confusion_matrix(Y_3,y_pred)
 ```python
 predictions_sgd = sgd_clf.predict(X_test)
 print(predictions_sgd[10])
-Accuracy=(3418+393)/(3418+393+38+351)
-print(Accuracy)
-accuracy_score(Y_3,y_pred)
+
+accuracy_score(y_test_3.values,y_pred)
 ```
 
     False
-    0.9073809523809524
     
 
 
 
 
-    0.8228571428571428
+    0.9588095238095238
 
 
 
